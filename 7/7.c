@@ -22,15 +22,15 @@ int main(){
     unsigned long long int temp;
 
     while (1){
-        system("cls");
-        menu();
+        system("cls"); // clears the screen, uses windows.h
+        menu(); //displays menu
 
         scanf("%d", &choice);
 
         n=-1;
         switch(choice){
 
-            case 1:
+            case 1: //first n perfect numbers
                 while (n<0){
                     printf("Enter a positive numer: ");
                     scanf("%d", &n);
@@ -51,7 +51,7 @@ int main(){
 
                 break;
 
-            case 2:
+            case 2: //factorial w/o multiplication
                 while (n<0){
                     printf("Enter a positive numer: ");
                     scanf("%d", &n);
@@ -60,7 +60,7 @@ int main(){
                 printf("%ld", factorial(n));
                 break;
 
-            case 3:
+            case 3: //primality check w/o modulo
                 while (n<0){
                     printf("Enter a positive numer: ");
                     scanf("%d", &n);
@@ -72,18 +72,19 @@ int main(){
                 
                 break;
 
-            case 4:
+            case 4: //exit
                 return 0;
 
         }
 
-        pause();
+        pause(); // pause,, otherwise the program will clearscreen after algo is finished, cannot view results
     }
 
 
     return 0;
 }
 
+//perfect numbers,, unsigned long long int to allow for max possible value
 unsigned long long int perfectNumber(unsigned long long int n){
     unsigned long long int i, sum=0;
 
@@ -97,17 +98,19 @@ unsigned long long int perfectNumber(unsigned long long int n){
     else return 0;
 }
 
+//checks primality
 int isPrime(int n){
     int i;
 
     for (i=2; i<=sqrt(n); i++){
-        if ((float)n/i == (int)n/i) // determines if divisible or not
-            return 0;
+        if ((float)n/i == (int)n/i) // determines if n has factors. if yes, not prime
+            return 0; 
     }
 
-    return 1;
+    return 1; // cannot find factors therefore prime
 }
 
+//calculates exponential
 double power(int x, int y){
     int i; 
     double ans=1;
@@ -126,7 +129,7 @@ long int factorial(int n){
 
     // int x=2, y=3;
 
-    for (i=2; i<=n; i++)
+    for (i=2; i<=n; i++) //repeated use of multiply function
         ans = multiply(ans, i);
         
 
@@ -137,7 +140,7 @@ long int factorial(int n){
 int multiply(int a, int b){
     int i, ans=0;
 
-    for (i=1; i<=b; i++)
+    for (i=1; i<=b; i++) //repeated addition
         ans += a;
     
     return ans;
@@ -155,6 +158,7 @@ void menu(){
     return;
 }
 
+// just asks the user to enter any key
 void pause(){
     char x;
     printf("\nPress any key to continue...");

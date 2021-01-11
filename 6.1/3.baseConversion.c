@@ -15,26 +15,29 @@ int main(){
     int i=0, n, b;
     long long int converted = 0;
 
+    // asks input from user
     scanf("%d", &n);
     scanf("%d", &b);
 
     if (b>=10){
         printf("ERROR: second integer should be less than 10");
+        return 0;
     }
 
-
+    // conversion algo
     while (n!=0){
         converted += (n%b)*power(10, i);
         n /= b;
         i++;
     }
 
+    //print converted
     printf("%lld", converted);
 
     return 0;
 }
 
-long long int power(int a, int b){
+long long int power(int a, int b){ // exponential function
     int i, ans=1;
 
     for (i=0; i<b; i++){

@@ -17,12 +17,12 @@ int main(){
 
     for (i=1; i<=n; i++){
 
-        if ( (i+1) % 4 == 0 || i%4 == 0){
+        if ( (i+1) % 4 == 0 || i%4 == 0){   // for multiples of 7
             ctr2++;
             printf("%d ", num2*ctr2);
         }
 
-        else {
+        else {                              // for multiples of 4
             ctr1++;
             printf("%d ", num1*ctr1);
         }

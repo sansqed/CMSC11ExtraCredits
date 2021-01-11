@@ -35,24 +35,28 @@ int main(){
     int arr[size], arr2[size], freq[10], tempArr[10];
 
     while (1){
-        system("cls");
-        menu();
+        system("cls");// clears the screen, uses windows.h
+        menu(); //displays menu
 
-        
+        // choice() is for arrow keys navigation
         switch(choice(26,4,4)+1){
 
-            case 1:
+            case 1: //reverse
+                // ask input, prints the prompt starting in location (23,13)
                 getArr(arr, size, 23, 13);
+
                 reverse(arr, size);
 
+                //prints reversed array in (23,24)
                 gotoxy(23, 13+size+1);
                 printArr(arr, size);
 
                 break;
 
-            case 2:
-                getArr(arr, size, 23, 13);
+            case 2: //palindromic
+                getArr(arr, size, 23, 13); //prompt user input
                 
+                //prints reversed array in (23,24)
                 gotoxy(23, 13+size+1);
                 if (palindromic(arr,size))
                     printf("The array is palindromic");
@@ -60,12 +64,14 @@ int main(){
 
                 break;
 
-            case 3:
+            case 3: //search
                 gotoxy(23, 13);
                 printf("Enter a sorted array.\n");
                 getArr(arr, size, 23, 14);
 
                 i=0;
+                // loops unless array is sorted
+                //isSorted() implementation below
                 while (isSorted(arr, size)==0){
                     i++;
                     gotoxy(23, 13 + ((size*i)+1));
@@ -73,11 +79,12 @@ int main(){
                     getArr(arr, size, 23, 14 + ((10*i)+1));
                 }
 
-
+                
                 gotoxy(23, 25 + (size*i)+1);
                 printf("Enter a number to search: ");
                 scanf("%d", &x);
 
+                //stores position of x,, if x is not in array, pos=-1;
                 pos = binarySeach(arr, size, x);
 
                 gotoxy(23, 27 + (size*i)+1);
@@ -87,10 +94,13 @@ int main(){
 
                 break;
 
-            case 4:
+            case 4: //count n-dgit numbers
                 getArr(arr2, size2, 23, 13);
-                resetArr(freq, 10);
+                resetArr(freq, 10); //resets values in freq array to 0
 
+                //counts # of digits per index
+                //stores it in freq array
+                //index in freq array is just one less than the digit
                 for (i=0; i<size2; i++){
                     digits=digitCounter(arr2[i]);
                     freq[digits-1]++;
@@ -99,11 +109,14 @@ int main(){
                 gotoxy(23, 13+size2+1);
                 printArr(freq, 10);
                 
+                //finds maxfrequency, flags index of tempArr that is has max freq (value is 1 in that location)
+                //can accomodate multiple max frequency (i.e. more than 1 digits with appeared the most)
                 gotoxy(10, 15+size2+1);
                 findMax(freq, 10, tempArr);
-                print1InArray(tempArr, 10);
+                print1InArray(tempArr, 10); //prints all index+1 that has value of 1 in tempArr
                 printf("digit(s) numbers appear the most in the array.");
 
+                //same with max frequency
                 gotoxy(10, 16+size2+1);
                 findMin(freq, 10, tempArr);
                 print1InArray(tempArr, 10);
@@ -115,13 +128,14 @@ int main(){
 
         }
 
-        pause();
+        pause(); // pause,, otherwise the program will clearscreen after algo is finished, cannot view results
     }
 
 
     return 0;
 }
 
+//function to ask user to input in array
 void getArr (int arr[], int size, int xPos, int yPos){
     int i;
     
@@ -135,6 +149,7 @@ void getArr (int arr[], int size, int xPos, int yPos){
     return;
 }
 
+//function to print array
 void printArr(int arr[], int size){
     int i;
 
@@ -144,6 +159,7 @@ void printArr(int arr[], int size){
     return;
 }
 
+//resets values in array to 0
 void resetArr(int arr[], int size){
     int i;
 
@@ -153,6 +169,7 @@ void resetArr(int arr[], int size){
     return;
 }
 
+//reverse array for #1
 void reverse (int arr[], int size){
     int i;
 
@@ -164,6 +181,7 @@ void reverse (int arr[], int size){
 
 }
 
+//used in reverse function,, uses pointers
 void swap (int* a, int* b){
     int temp;
 
@@ -174,28 +192,31 @@ void swap (int* a, int* b){
     return;
 }
 
-
+//checks if palindromic
 int palindromic (int arr[], int size){
     int i;
 
+    //loops from both ends to middle
     for (i=0; i<size/2; i++){
-        if (arr[i] != arr[size-1-i])
-            return 0;
+        if (arr[i] != arr[size-1-i]) //if ends dont match, not palindrome, return 0
+            return 0; //not palindrome
     }
-    return 1;
+    return 1;// is palindrome
 }
 
+// checks if sorted
 int isSorted(int arr[], int size){
     int i;
 
     for (i=0; i<size-1; i++){
-        if (arr[i] > arr[i+1])
-            return 0;
+        if (arr[i] > arr[i+1]) //compares index i to its right,, if index i is bigger, not sorted, return 0
+            return 0; //not sorted
     }
-    return 1;
+    return 1; // is sorted
 
 }
 
+//binary search lmao
 int binarySeach(int arr[], int size, int x){
     int l=0, r=size-1, mid;
 
@@ -212,9 +233,11 @@ int binarySeach(int arr[], int size, int x){
     return -1;
 }
 
+//counts # of digit in n
 int digitCounter (int n){
     int ctr=0;
 
+    //continuouslt divides n by 10 until n==0, increments counter each time
     while (n!=0){
         ctr++;
         n /= 10;
@@ -228,11 +251,12 @@ void findMax (int arr[], int size, int saveMax[]){
 
     resetArr(saveMax, 10);
 
-    for (i=1; i<size; i++){
+    for (i=1; i<size; i++){ //finds largest value
         if (arr[i]>max)
             max = arr[i];
     }
 
+    //checks if other indexes is also max. if it is, flags the corresponding index of saveMax
     for (i=0; i<size; i++){
         if (max == arr[i])
             saveMax[i]=1;
@@ -246,13 +270,14 @@ void findMin(int arr[], int size, int saveMin[]){
 
     resetArr(saveMin, 10);
 
-    for (i=1; i<size; i++){
+    for (i=1; i<size; i++){ //finds smallest value
         if (arr[i]<min && arr[i]!=0)
             min = arr[i];
     }
 
     // printf("/%d/ ", min);
 
+    //checks if other indexes is also min. if it is, flags the corresponding index of saveMin
     for (i=0; i<size; i++){
         if (min == arr[i])
             saveMin[i]=1;
@@ -260,6 +285,7 @@ void findMin(int arr[], int size, int saveMin[]){
     return;
 }
 
+// prints the index+1 that has value of 1,, flagged from findMin and findMax fns
 void print1InArray(int arr[], int size){
     int i;
     for (i=0; i<size; i++){
@@ -286,7 +312,7 @@ void menu (){
 	return;
 }
 
-
+// just asks the user to enter any key
 void pause(){
     char x;
     gotoxy(23, 39);
@@ -295,6 +321,7 @@ void pause(){
     return;
 }
 
+//creates double-lined box
 void createBox(int width, int height, int xPos, int yPos){
 	int row=0, col=0;
 	for (row=0; row<=height; row++){
@@ -314,6 +341,7 @@ void gotoxy(int x, int y){
 	return;
 }
 
+// function for arrow keys navigation
 int choice(int xPos, int yPos, int choices){
 	
 	int pos=-1;

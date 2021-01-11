@@ -23,19 +23,24 @@ int main(){
     int x=-1, y=-1, n=-1;
 
     while (1){
-        system("cls");
-        menu();
+        system("cls"); // clears the screen,, uses #include<stdio.h>
+        menu(); // display menu, implementation found below
 
         // scanf("%d", &choice);
 
+        //resets values
         x=-1;
         y=-1; 
         n=-1;
+
+        //choice fn is for arrow keys navigation, implementation found below
+        // uses up/down to navigate
+        //parameters(xPos, yPos, #OfChoices)
         switch(choice(26,4,4)+1){
 
-            case 1:
-                while (x<0){
-                    gotoxy(23, 13);
+            case 1: //perfect num or not
+                while (x<0){ //loops until user gives a positive number
+                    gotoxy(23, 13); //gotoxy() to move terminal cursor to (x,y) coordinates
                     printf("Enter a positive number: ");
                     scanf("%d", &x);
                 }
@@ -46,7 +51,7 @@ int main(){
                 else printf("%d is NOT a perfect number", x);
                 break;
 
-            case 2:
+            case 2://x raised to y
                 gotoxy(23, 13);
                 printf("Enter value for x: ");
                 scanf("%d", &x);
@@ -63,9 +68,9 @@ int main(){
                     printf("%d raised to the %d is %.0lf", x, y, power(x,y));
 
                 break;
-            case 3:
+            case 3: //factorial
                 gotoxy(23, 13);
-                while (n<0){
+                while (n<0){ //loops until user gives a positive number
                     printf("Enter a nonnegative integer: ");  
                     scanf("%d", &n);
                 }
@@ -75,7 +80,7 @@ int main(){
                 printf("%lld", factorial(n));
                 break;
 
-            case 4:
+            case 4: //fibonacci
 
                 gotoxy(23, 13);
                 while (n<0){
@@ -87,12 +92,12 @@ int main(){
                 fibo(n);
 
                 break;
-            case 5:
+            case 5: //exit
                 return 0;
         }
         
         
-        pause();
+        pause(); // pause,, otherwise the program will clearscreen after algo is finished, cannot view results
     }
 
 
@@ -102,16 +107,18 @@ int main(){
 int perfectNumber(int n){
     int i, sum=0;
 
+    //finds factors and sums it
     for (i=1; i<n; i++){
         if (n%i == 0)
             sum += i;
     }
 
     if (sum == n)
-        return 1;
-    else return 0;
+        return 1; //it is a perfect number
+    else return 0; //NOT a perfect number
 }
 
+//calculates exponential
 double power(int x, int y){
     int i; 
     double ans=1;
@@ -123,33 +130,34 @@ double power(int x, int y){
     return ans;
 }
 
+//calculates factorial
 long long int factorial(int n){
     int i;
     long long ans=1;
 
     for (i=n; i>0; i--){
-        if (i != 1){
-            printf("%d*",i);
-            ans *= i;
-        }
-        else {
-            printf("%d = ",i);
-            ans *= i;
-        }
+        if (i != 1)
+            printf("%d*",i); //for printing purposes
+        
+        else 
+            printf("%d = ",i); //for printing purposes
+        
+        ans *= i; //factorial algo
     }
 
     return ans;
 }
 
+//calculates fibonacci sequence
 void fibo (int n){
     int i, a=1, b=1;
 
     for (i=1; i<=n; i++){
-        if (i%2 == 0){
+        if (i%2 == 0){ // for even places, b is used
             printf("%d ", b);
             b = a+b;
         }
-        else {
+        else { // for odd places, a is used
             printf("%d ", a);
             a = a+b;
         }
@@ -158,12 +166,12 @@ void fibo (int n){
     return;
 }
 
-
+//menu
 void menu (){
-	int x=25,y=2, z=3;
+	int x=25,y=2, z=3; // starts box at location (25,2)
 	
-	createBox(37,10,x-5,y-1);
-	gotoxy(x+9,y); printf("MP 6.3");
+	createBox(37,10,x-5,y-1); // draws a box, implementation below
+	gotoxy(x+9,y); printf("MP 6.3"); //header
 	
 	gotoxy(x,++y+1); printf("[ ] 1. Perfect Number or Not");
 	gotoxy(x,++y+1); printf("[ ] 2. X Raised to Y");
@@ -176,15 +184,17 @@ void menu (){
 }
 
 
-
+// just asks the user to enter any key
 void pause(){
     char x;
     gotoxy(23, 17);
     printf("Press any key to continue...");
-    x=getch();
+    x=getch(); // getch() uses #include<conio.h>
     return;
 }
 
+
+//creates a double-lined box
 void createBox(int width, int height, int xPos, int yPos){
 	int row=0, col=0;
 	for (row=0; row<=height; row++){
@@ -196,6 +206,7 @@ void createBox(int width, int height, int xPos, int yPos){
 	return;
 }
 
+//function to move cursor at (x,y) location
 void gotoxy(int x, int y){
 	COORD coord;
 	coord.X = x;
@@ -204,6 +215,7 @@ void gotoxy(int x, int y){
 	return;
 }
 
+// function for arrow keys navigation
 int choice(int xPos, int yPos, int choices){
 	
 	int pos=-1;

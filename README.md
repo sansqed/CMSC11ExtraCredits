@@ -4,5 +4,5 @@ kill me
 ---
 
 **Notice:**
-- Will add comments later.
+- Will add comments later. (done MP 6-8)
 - The files with "extra" have some codes that are kinda confusing,, proceed with caution. 

@@ -16,23 +16,23 @@ int main(){
 
     scanf("%d", &n);
 
-    if (isPrime(n) && isPrime((2*n)+1))
+    if (isPrime(n) && isPrime((2*n)+1)) //check if germain prime
         printf("It is a Germain Prime");
     else printf("It is NOT a Germain Prime");
 
     return 0;
 }
 
-int isPrime(int num){
+int isPrime(int num){ // function to check if prime
 
     int i;
 
-    for (i=2; i<=sqrt(num); i++){
+    for (i=2; i<=sqrt(num); i++){ // find factos <=sqrt(num)
 
         if (num%i == 0)
-            return 0;
+            return 0;   // exits if factor has been found
     }
 
-    return 1;
+    return 1; // if no factor found, it is prime
     
 }
