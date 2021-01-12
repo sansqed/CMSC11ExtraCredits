@@ -12,12 +12,12 @@ MP 6.3
 int perfectNumber(int n);
 double power(int a, int b);
 long long int factorial(int n);
-void fibo (int n);
+int fibo (int n);
 void menu();
 void pause();
 
 int main(){
-    int choice, x=-1, y=-1, n=-1;
+    int choice, x=-1, y=-1, n=-1, flag;
 
     while (1){
         system("cls"); // clears the screen,, uses #include<windows.h>
@@ -29,6 +29,7 @@ int main(){
         x=-1;
         y=-1; 
         n=-1;
+        flag=0;
 
         // choices
         switch(choice){
@@ -53,9 +54,9 @@ int main(){
                 scanf("%d", &y);
 
                 if (y<0)
-                    printf("%d raised to the %d is %.5lf", x, y, 1/power(x,abs(y)));
+                    printf("%d raised to %d is %.5lf", x, y, 1/power(x,abs(y)));
                 else 
-                    printf("%d raised to the %d is %.0lf", x, y, power(x,y));
+                    printf("%d raised to %d is %.0lf", x, y, power(x,y));
 
                 break;
             case 3: //factorial
@@ -72,7 +73,10 @@ int main(){
                     scanf("%d", &n);
                 }
                 
-                fibo(n);
+                //for prefixes in numbers (e.g. 1st, 2nd, 4th, ....)
+                if (n==11 || n==12 || n==13)
+                    flag=1;
+                printf("The %d%s element of the fibonacci sequence is %ld" ,n , flag==1? "th":n%10==1? "st":n%10==2? "nd":n%10==3? "rd":"th" , fibo(n));
 
                 break;
 
@@ -132,21 +136,27 @@ long long int factorial(int n){
 }
 
 //calculates fibonacci sequence
-void fibo (int n){
-    int i, a=1, b=1;
+int fibo (int n){
+    int i, a, b;
 
-    for (i=1; i<=n; i++){
-        if (i%2 == 0){ // for even places, b is used
-            printf("%d ", b);
-            b = a+b;
-        }
-        else { // for odd places, a is used
-            printf("%d ", a);
-            a = a+b;
-        }
+    for (i=0; i<=n; i++){
+        if (i%2 == 0){ // for even places, a is used
+            if (i==0)
+                a=0;
+            else a = a+b;
 
+            if (i==n)
+                return a;
+        }
+        else { // for odd places, b is used
+            if (i==1)
+                b=1;
+            else b = a+b;
+
+            if (i==n)
+                return b;
+        }
     }
-    return;
 }
 
 //menu

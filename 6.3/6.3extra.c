@@ -12,7 +12,7 @@ MP 6.3
 int perfectNumber(int n);
 double power(int a, int b);
 long long int factorial(int n);
-void fibo (int n);
+int fibo (int n);
 void menu();
 void pause();
 void createBox(int width, int height, int xPos, int yPos);
@@ -20,7 +20,7 @@ void gotoxy(int x, int y);
 int choice(int xPos, int yPos, int choices);
 
 int main(){
-    int x=-1, y=-1, n=-1;
+    int x=-1, y=-1, n=-1, flag, flag2;
 
     while (1){
         system("cls"); // clears the screen,, uses #include<stdio.h>
@@ -32,6 +32,8 @@ int main(){
         x=-1;
         y=-1; 
         n=-1;
+        flag=0;
+        flag2=0;
 
         //choice fn is for arrow keys navigation, implementation found below
         // uses up/down to navigate
@@ -63,33 +65,38 @@ int main(){
                 gotoxy(23, 15);
 
                 if (y<0)
-                    printf("%d raised to the %d is %.5lf", x, y, 1/power(x,abs(y)));
+                    printf("%d raised to %d is %.5lf", x, y, 1/power(x,abs(y)));
                 else 
-                    printf("%d raised to the %d is %.0lf", x, y, power(x,y));
+                    printf("%d raised to %d is %.0lf", x, y, power(x,y));
 
                 break;
             case 3: //factorial
-                gotoxy(23, 13);
                 while (n<0){ //loops until user gives a positive number
+                    gotoxy(23, 13+flag);
                     printf("Enter a nonnegative integer: ");  
                     scanf("%d", &n);
+                    flag++;
                 }
 
-                gotoxy(23, 14);
+                gotoxy(23, 14+flag);
                 printf("%d! = ", n);
                 printf("%lld", factorial(n));
                 break;
 
             case 4: //fibonacci
 
-                gotoxy(23, 13);
                 while (n<0){
+                    gotoxy(23, 13+flag);
                     printf("Enter a nonnegative integer: ");  
                     scanf("%d", &n);
+                    flag++;
                 }
                 
-                gotoxy(23, 14);
-                fibo(n);
+                //for prefixes in numbers (e.g. 1st, 2nd, 4th, ....)
+                gotoxy(23, 14+flag);
+                if (n==11 || n==12 || n==13)
+                    flag2=1;
+                printf("The %d%s element is %ld" ,n , flag2==1? "th":n%10==1? "st":n%10==2? "nd":n%10==3? "rd":"th" , fibo(n));
 
                 break;
             case 5: //exit
@@ -149,22 +156,29 @@ long long int factorial(int n){
 }
 
 //calculates fibonacci sequence
-void fibo (int n){
-    int i, a=1, b=1;
+int fibo (int n){
+    int i, a, b;
 
-    for (i=1; i<=n; i++){
-        if (i%2 == 0){ // for even places, b is used
-            printf("%d ", b);
-            b = a+b;
-        }
-        else { // for odd places, a is used
-            printf("%d ", a);
-            a = a+b;
-        }
+    for (i=0; i<=n; i++){
+        if (i%2 == 0){ // for even places, a is used
+            if (i==0)
+                a=0;
+            else a = a+b;
 
+            if (i==n)
+                return a;
+        }
+        else { // for odd places, b is used
+            if (i==1)
+                b=1;
+            else b = a+b;
+
+            if (i==n)
+                return b;
+        }
     }
-    return;
 }
+
 
 //menu
 void menu (){
@@ -187,7 +201,7 @@ void menu (){
 // just asks the user to enter any key
 void pause(){
     char x;
-    gotoxy(23, 17);
+    gotoxy(23, 25);
     printf("Press any key to continue...");
     x=getch(); // getch() uses #include<conio.h>
     return;
