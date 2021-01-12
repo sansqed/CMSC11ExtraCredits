@@ -1,7 +1,7 @@
 /*
 Author: Alwyn Dy
 Date: 21/1/11
-MP 6.3
+MP 9.2
 */
 
 #include<stdio.h>
