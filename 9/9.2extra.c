@@ -11,8 +11,11 @@ MP 6.3
 
 int perfectNumber(int n);
 double power(int a, int b);
-long long int factorial(int n);
-int fibo (int n);
+unsigned long long int factorial(int n);
+long int fibo (int n);
+int summation(int n);
+int decToOctal(int n);
+
 void menu();
 void pause();
 void createBox(int width, int height, int xPos, int yPos);
@@ -38,31 +41,31 @@ int main(){
         //choice fn is for arrow keys navigation, implementation found below
         // uses up/down to navigate
         //parameters(xPos, yPos, #OfChoices)
-        switch(choice(26,4,4)+1){
+        switch(choice(26,4,6)+1){
 
             case 1: //perfect num or not
                 while (x<0){ //loops until user gives a positive number
-                    gotoxy(23, 13); //gotoxy() to move terminal cursor to (x,y) coordinates
+                    gotoxy(23, 16); //gotoxy() to move terminal cursor to (x,y) coordinates
                     printf("Enter a positive number: ");
                     scanf("%d", &x);
                 }
 
-                gotoxy(23, 14);
+                gotoxy(23, 18);
                 if (perfectNumber(x))
                     printf("%d is a perfect number", x);
                 else printf("%d is NOT a perfect number", x);
                 break;
 
             case 2://x raised to y
-                gotoxy(23, 13);
+                gotoxy(23, 16);
                 printf("Enter value for x: ");
                 scanf("%d", &x);
 
-                gotoxy(23, 14);
+                gotoxy(23, 17);
                 printf("Enter value for y: ");
                 scanf("%d", &y);
 
-                gotoxy(23, 15);
+                gotoxy(23, 19);
 
                 if (y<0)
                     printf("%d raised to %d is %.5lf", x, y, 1/power(x,abs(y)));
@@ -72,13 +75,13 @@ int main(){
                 break;
             case 3: //factorial
                 while (n<0){ //loops until user gives a positive number
-                    gotoxy(23, 13+flag);
+                    gotoxy(23, 16+flag);
                     printf("Enter a nonnegative integer: ");  
                     scanf("%d", &n);
                     flag++;
                 }
 
-                gotoxy(23, 14+flag);
+                gotoxy(23, 17+flag);
                 printf("%d! = ", n);
                 printf("%lld", factorial(n));
                 break;
@@ -86,20 +89,44 @@ int main(){
             case 4: //fibonacci
 
                 while (n<0){
-                    gotoxy(23, 13+flag);
+                    gotoxy(23, 16+flag);
                     printf("Enter a nonnegative integer: ");  
                     scanf("%d", &n);
                     flag++;
                 }
                 
                 //for prefixes in numbers (e.g. 1st, 2nd, 4th, ....)
-                gotoxy(23, 14+flag);
+                gotoxy(23, 17+flag);
                 if (n==11 || n==12 || n==13)
                     flag2=1;
                 printf("The %d%s element is %ld" ,n , flag2==1? "th":n%10==1? "st":n%10==2? "nd":n%10==3? "rd":"th" , fibo(n));
 
                 break;
-            case 5: //exit
+            case 5: //summation
+                while (n<0){
+                    gotoxy(23, 16+flag);
+                    printf("Enter a positive integer: ");  
+                    scanf("%d", &n);
+                    flag++;
+                }
+
+                gotoxy(23, 17+flag);
+                printf(" Summation of %d is %d", n, summation(n));
+                break;
+                
+            case 6: //dec to octal
+                while (n<0){
+                    gotoxy(23, 16+flag);
+                    printf("Enter a positive integer: ");  
+                    scanf("%d", &n);
+                    flag++;
+                }
+
+                gotoxy(23, 17+flag);
+                printf("%d in octal is %d", n, decToOctal(n));
+                break;
+
+            case 7: //exit
                 return 0;
         }
         
@@ -116,7 +143,7 @@ int perfectNumber(int n){
 
     if (n==0)
         return 0;
-        
+
     //finds factors and sums it
     for (i=1; i<n; i++){
         if (n%i == 0)
@@ -128,73 +155,75 @@ int perfectNumber(int n){
     else return 0; //NOT a perfect number
 }
 
-//calculates exponential
+//calculates exponential, recursive
 double power(int x, int y){
-    int i; 
-    double ans=1;
-
-    for (i=0; i<y; i++){
-        ans *= x;
-    }
-
-    return ans;
+    if (y==1 || y==-1) //exit condition
+        return x;
+    else if (y==0)
+        return 1;
+    
+    if (y>=0)
+        return x * power(x,y-1);
+    else
+        return x * power(x,y+1);
 }
 
-//calculates factorial
-long long int factorial(int n){
-    int i;
-    long long ans=1;
+//calculates factorial, recursive
+unsigned long long int factorial(int n){
 
-    for (i=n; i>0; i--){
-        if (i != 1)
-            printf("%d*",i); //for printing purposes
-        
-        else 
-            printf("%d = ",i); //for printing purposes
-        
-        ans *= i; //factorial algo
+    if (n==1){ //exit condition
+        printf("%d = ", n);
+        return (long long int)1;
     }
+    else if (n==0)
+        return 1;
 
-    return ans;
+    printf("%d*", n);
+
+    return n * factorial(n-1);
 }
 
 //calculates fibonacci sequence
-int fibo (int n){
-    int i, a, b;
-
-    for (i=0; i<=n; i++){
-        if (i%2 == 0){ // for even places, a is used
-            if (i==0)
-                a=0;
-            else a = a+b;
-
-            if (i==n)
-                return a;
-        }
-        else { // for odd places, b is used
-            if (i==1)
-                b=1;
-            else b = a+b;
-
-            if (i==n)
-                return b;
-        }
-    }
+long int fibo (int n){
+    if (n==1)
+     	return 1;
+    
+	else if (n==0) 
+		return 0;
+        
+    return fibo(n-1)+fibo(n-2);
 }
 
+// recursive summation
+int summation(int n){
+    if (n==0) //exit condition
+        return 0;
+    return n + summation(n-1);
+}
+
+//recursive decimal to octal conversion
+int decToOctal(int n){
+    if (n/8==0) //exit condition
+        return n%8;
+
+    return (n%8) + decToOctal(n/8)*10;
+
+}
 
 //menu
 void menu (){
 	int x=25,y=2, z=3; // starts box at location (25,2)
 	
-	createBox(37,10,x-5,y-1); // draws a box, implementation below
+	createBox(37,13,x-5,y-1); // draws a box, implementation below
 	gotoxy(x+9,y); printf("MP 6.3"); //header
 	
 	gotoxy(x,++y+1); printf("[ ] 1. Perfect Number or Not");
 	gotoxy(x,++y+1); printf("[ ] 2. X Raised to Y");
 	gotoxy(x,++y+1); printf("[ ] 3. Factorial");
 	gotoxy(x,++y+1); printf("[ ] 4. Fibonacci");
-	gotoxy(x,++y+1); printf("[ ] 5. Exit");
+    gotoxy(x,++y+1); printf("[ ] 5. Summation");
+	gotoxy(x,++y+1); printf("[ ] 6. Decimal to Octal");
+	gotoxy(x,++y+1); printf("[ ] 7. Exit");
 
     gotoxy(x-3,++y+2); printf("note: use arrow keys to navigate");
 	return;

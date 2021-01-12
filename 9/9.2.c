@@ -1,7 +1,7 @@
 /*
 Author: Alwyn Dy
 Date: 21/1/11
-MP 6.3
+MP 9.2
 */
 
 #include<stdio.h>
@@ -12,12 +12,15 @@ MP 6.3
 int perfectNumber(int n);
 double power(int a, int b);
 long long int factorial(int n);
-int fibo (int n);
+long int fibo (int n);
+int summation(int n);
+long int decToOctal(int n);
+
 void menu();
 void pause();
 
 int main(){
-    int choice, x=-1, y=-1, n=-1, flag;
+    int choice, x=-1, y=-1, n=-1, flag=0;
 
     while (1){
         system("cls"); // clears the screen,, uses #include<windows.h>
@@ -64,12 +67,13 @@ int main(){
                     printf("Enter a nonnegative integer: ");  
                     scanf("%d", &n);
                 }
-                printf("%d! = %lld", n, factorial(n));
+                printf("%d! = ", n);
+                printf("%lld", factorial(n));
                 break;
 
             case 4: //fibonacci
-                while (n<0){
-                    printf("Enter a nonnegative integer: ");  
+                while (n<=0){
+                    printf("Enter a positive integer: ");  
                     scanf("%d", &n);
                 }
                 
@@ -79,8 +83,26 @@ int main(){
                 printf("The %d%s element of the fibonacci sequence is %ld" ,n , flag==1? "th":n%10==1? "st":n%10==2? "nd":n%10==3? "rd":"th" , fibo(n));
 
                 break;
+            
+            case 5: //summation
+                while (n<0){
+                    printf("Enter a positive integer: ");  
+                    scanf("%d", &n);
+                }
+                 
+                printf("\n Summation of %d is %d", n, summation(n));
+                break;
+                
+            case 6: //dec to octal
+                while (n<0){
+                    printf("Enter a positive integer: ");  
+                    scanf("%d", &n);
+                }
 
-            case 5: //exit
+                printf("\n %d in octal is %ld", n, decToOctal(n));
+                break;
+
+            case 7: //exit
                 return 0;
         }
 
@@ -108,58 +130,59 @@ int perfectNumber(int n){
     else return 0; // NOT a perfect number
 }
 
-//calculates exponential
+//calculates exponential, recursive
 double power(int x, int y){
-    int i; 
-    double ans=1;
-
-    for (i=0; i<y; i++){
-        ans *= x;
-    }
-
-    return ans;
+    if (y==1 || y==-1) //exit condition
+        return x;
+    else if (y==0)
+        return 1;
+    
+    if (y>=0)
+        return x * power(x,y-1);
+    else
+        return x * power(x,y+1);
 }
 
-//calculates factorial
+//calculates factorial, recursive
 long long int factorial(int n){
-    int i;
-    long long ans=1;
 
-    for (i=n; i>0; i--){
-        if (i != 1)
-            printf("%d*",i); // for printing purposes
-        
-        else 
-            printf("%d = ",i); // for printing purposes
-        
-        ans *= i; // factorial algo
+    if (n==1){ //exit condition
+        printf("%d = ", n);
+        return (long long int)1;
     }
+    else if (n==0)
+        return 1;
 
-    return ans;
+    printf("%d*", n);
+
+    return n * factorial(n-1);
 }
 
 //calculates fibonacci sequence
-int fibo (int n){
-    int i, a, b;
+long int fibo (int n){
+    if (n==1)
+     	return 1;
+    
+	else if (n==0) 
+		return 0;
+        
+    return fibo(n-1)+fibo(n-2);
+}
 
-    for (i=0; i<=n; i++){
-        if (i%2 == 0){ // for even places, a is used
-            if (i==0)
-                a=0;
-            else a = a+b;
+// recursive summation
+int summation(int n){
+    if (n==0) //exit condition
+        return 0;
+    return n + summation(n-1);
+}
 
-            if (i==n)
-                return a;
-        }
-        else { // for odd places, b is used
-            if (i==1)
-                b=1;
-            else b = a+b;
+//recursive decimal to octal conversion
+long int decToOctal(int n){
+    if (n/8==0) //exit condition
+        return n%8;
 
-            if (i==n)
-                return b;
-        }
-    }
+    return (n%8) + decToOctal(n/8)*10;
+
 }
 
 //menu
@@ -168,7 +191,9 @@ void menu(){
     printf("2. X Raised to Y \n");
     printf("3. Factorial \n");
     printf("4. Fibonacci \n");
-    printf("5. Exit \n\n");
+    printf("5. Summation \n");
+    printf("6. Decimal to Octal \n");
+    printf("7. Exit \n\n");
     printf("Enter a number to choose: ");
 
     return;
