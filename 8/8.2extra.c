@@ -205,7 +205,7 @@ void menu (){
 	int x=25,y=2, z=3;
 	
 	createBox(39,10,x-5,y-1);
-	gotoxy(x+9,y); printf("MP 8.1");
+	gotoxy(x+9,y); printf("MP 8.2");
 	
 	gotoxy(x,++y+1); printf("[ ] 1. Hexadecimal to Decimal");
 	gotoxy(x,++y+1); printf("[ ] 2. Substring");

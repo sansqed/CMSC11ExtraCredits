@@ -215,7 +215,7 @@ void menu (){
 	int x=25,y=2, z=3; // starts box at location (25,2)
 	
 	createBox(37,13,x-5,y-1); // draws a box, implementation below
-	gotoxy(x+9,y); printf("MP 6.3"); //header
+	gotoxy(x+9,y); printf("MP 9.2"); //header
 	
 	gotoxy(x,++y+1); printf("[ ] 1. Perfect Number or Not");
 	gotoxy(x,++y+1); printf("[ ] 2. X Raised to Y");
