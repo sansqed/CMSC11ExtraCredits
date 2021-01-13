@@ -1,8 +1,8 @@
 # CMSC11ExtraCredits
-kill me
+*kill me*
 
 ---
 
 **Notice:**
-- Will add comments later. (done MP 6-8)
+- Will add comments later. (done MP 6-10.2)
 - The files with "extra" have some codes that are kinda confusing,, proceed with caution. 
