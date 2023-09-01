@@ -1,0 +1,78 @@
+\documentclass[12pt,letterpaper]{article}
+\usepackage{fullpage}
+\usepackage[top=1.5cm, bottom=1.5cm, left=1.5cm, right=1.5cm]{geometry}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{enumitem}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{
+    language=C,
+    aboveskip=3mm,
+    frame=single,
+    belowskip=3mm,
+    showstringspaces=false,
+    columns=flexible,
+    basicstyle={\small\ttfamily},
+    numbers=none,
+    numberstyle=\tiny\color{gray},
+    keywordstyle=\color{blue},
+    commentstyle=\color{dkgreen},
+    stringstyle=\color{mauve},
+    breaklines=true,
+    breakatwhitespace=true,
+    tabsize=3,
+    numbers=left,
+    stepnumber=1
+    }
+    
+\geometry{letterpaper, portrait, margin=1in}
+
+\title{Extra Credits Activity 1}
+\date{}
+
+\begin{document}
+    \maketitle
+
+    \begin{enumerate}[label=\Roman*]
+        \item 
+        \begin{lstlisting}
+#include <stdio.h>
+
+int main() {
+    int num, input, x, y;
+    char ch;
+    scanf("%d %d %c", &num, &input, &ch);
+    printf("%d %c %d",num, ch, input);
+    if(num == 10)
+        ch = 45;
+    else
+        ch = 90;
+    while(input < -3)
+        printf("num: %d", input);
+    input++;
+    for(x = 0, y = 1; x<y; x++, input++, ch++)
+        x++;
+
+    return 0;
+}
+        \end{lstlisting}
+    \item 
+        x is 5.\\
+        x is -3.\\
+        Huh?\\
+        Again?\\
+        What now?\\
+        Unswa?!\\
+        x is -2147483647.\\
+        48 49 50 51 52 53 54 55 56 57 \\
+    \item \begin{enumerate}[label=\arabic*]
+        \item 
+    \end{enumerate}
+    \end{enumerate}
+
+    
+\end{document}

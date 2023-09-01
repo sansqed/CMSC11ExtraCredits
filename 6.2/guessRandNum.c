@@ -46,5 +46,5 @@ int main(){
 // generate random num below 101 [1-100]
 int randNum(){
     srand((unsigned int)time(NULL));  //sets the seed of  the random() function to the system time
-    return rand()%101;
+    return (rand()*rand())%101;
 }
